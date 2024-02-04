@@ -33,6 +33,11 @@ io.on("connection" ,(socket)=> {
         socket.to(room).emit("receive-message", message);
     })
 
+    socket.on("join-room", (room)=> {
+        socket.join(room)
+        console.log("User Joined ", room);
+    })
+
     socket.on("disconnect", ()=> {
         console.log("User Disconnected!!!!");
     })
