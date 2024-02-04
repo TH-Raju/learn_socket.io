@@ -8,6 +8,11 @@ const App = () => {
   useEffect(()=> {
     socket.on("connect", () => {
       console.log("connected", socket.id);
+
+
+      socket.on("welcome", (s)=>{
+        console.log(s);
+      })
     })
   },[]);
 

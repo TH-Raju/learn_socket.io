@@ -28,6 +28,10 @@ app.get("/", (req,res)=> {
 io.on("connection" ,(socket)=> {
     console.log("User Connected");
     console.log("Id", socket.id);
+
+    socket.emit("welcome", `Welcome to the Server ${socket.id}`)
+    socket.broadcast.emit("welcome", `${socket.id} joined the group`)
+
 });
 
 server.listen(port, ()=> {
