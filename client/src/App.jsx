@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react';
 import {io} from 'socket.io-client'
-import {Button, Container, TextField, Typography} from "@mui/material"
+import {Button, Container, Stack, TextField, Typography} from "@mui/material"
 
 const App = () => {
   const socket = useMemo(()=> io("http://localhost:3000"), []);
   const [message, setMessage] = useState("")
   const [room ,setRoom] = useState("")
   const [socketId, setSocketId] = useState("")
-
+  const [messages, setMessages] = useState([])
+console.log(messages);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -24,6 +25,7 @@ const App = () => {
 
       socket.on("receive-message", (data)=> {
         console.log(data);
+        setMessages((messages) => [...messages, data])
       })
 
       socket.on("welcome", (s)=>{
@@ -58,6 +60,16 @@ const App = () => {
         id="outlined-basic" label="Room" variant='outlined' />
         <Button type="submit" variant="contained" color="primary"> Send</Button>
       </form>
+
+      <Stack>
+        {messages.map((m,i) => 
+            <Typography key={i} variant="h6" component="div" gutterBottom>
+          {m}
+            </Typography>
+          )
+        }
+      </Stack>
+
     </Container>
   )
 }
