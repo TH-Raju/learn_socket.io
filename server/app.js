@@ -2,10 +2,11 @@ import express from 'express';
 import {Server} from 'socket.io';
 import {createServer} from 'http';
 import cors from 'cors';
+import jwt from "jsonwebtoken";
 
 const port = 3000;
 const app = express();
-
+const secretKey = "thrajukhan"
 const server = createServer(app);
 const io = new Server(server, {
     cors: {
@@ -25,6 +26,23 @@ app.get("/", (req,res)=> {
     res.send("Hello Socket.io!")
 })
 
+app.get("/login", (req,res)=> {
+    const token = jwt.sign({_id: "asdfajsldf"}, secretKey)
+
+    res.cookie("token", token, {httpOnly: true, secure: true, sameSite: "none"})
+    .json({
+        message : "Login Success",
+    })
+})
+
+const user = false
+
+io.use((socket, next) => {
+    if(user){
+        next()
+    }
+})
+
 io.on("connection" ,(socket)=> {
     console.log("User Connected", socket.id);
 
@@ -35,7 +53,7 @@ io.on("connection" ,(socket)=> {
 
     socket.on("join-room", (room)=> {
         socket.join(room)
-        console.log("User Joined ", room);
+        console.log(socket.id, " Joined ", room);
     })
 
     socket.on("disconnect", ()=> {

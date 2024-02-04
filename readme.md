@@ -14,3 +14,7 @@
     npm i 
     npm i socket.io-client
 ```
+
+
+- if use login
+     - npm i jsonwebtoken cookie-parser
