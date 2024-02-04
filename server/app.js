@@ -26,11 +26,16 @@ app.get("/", (req,res)=> {
 })
 
 io.on("connection" ,(socket)=> {
-    console.log("User Connected");
-    console.log("Id", socket.id);
+    console.log("User Connected", socket.id);
 
-    socket.emit("welcome", `Welcome to the Server ${socket.id}`)
-    socket.broadcast.emit("welcome", `${socket.id} joined the group`)
+    socket.on("message", ({room, message}) => {
+        console.log(message);
+        socket.to(room).emit("receive-message", message);
+    })
+
+    socket.on("disconnect", ()=> {
+        console.log("User Disconnected!!!!");
+    })
 
 });
 
