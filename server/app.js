@@ -36,6 +36,7 @@ app.get("/login", (req,res)=> {
     })
 })
 
+// middleware
 
 io.use((socket, next) => {
     cookieParser()(socket.request, socket.request.res, (err) => {
