@@ -18,3 +18,11 @@
 
 - if use login
      - npm i jsonwebtoken cookie-parser
+
+
+
+## for test purpose at first hit the route to set token on cookies
+
+```
+http://localhost:3000/login
+```
